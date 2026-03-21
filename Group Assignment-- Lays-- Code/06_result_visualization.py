@@ -12,7 +12,7 @@ import os
 output_dir = "/content/member6_results"
 os.makedirs(output_dir, exist_ok=True)
 
-print("输出文件夹已创建：", output_dir)
+print("succeed：", output_dir)
 
 import pandas as pd
 
@@ -21,11 +21,11 @@ pred_df = pd.read_csv("/content/test_set_predictions.csv")
 
 print("=== model_evaluation_metrics.csv ===")
 print(metrics_df.head())
-print("\n列名：", metrics_df.columns.tolist())
+print("\ncolumn：", metrics_df.columns.tolist())
 
 print("\n=== test_set_predictions.csv ===")
 print(pred_df.head())
-print("\n列名：", pred_df.columns.tolist())
+print("\ncolumn：", pred_df.columns.tolist())
 print("\nshape:", pred_df.shape)
 
 import matplotlib.pyplot as plt
@@ -57,7 +57,7 @@ roc_path = os.path.join(output_dir, "roc_curve_comparison.png")
 plt.savefig(roc_path, dpi=300, bbox_inches="tight")
 plt.show()
 
-print("已保存：", roc_path)
+print("succeed：", roc_path)
 
 from sklearn.metrics import precision_recall_curve, average_precision_score
 
@@ -81,7 +81,7 @@ pr_path = os.path.join(output_dir, "pr_curve_comparison.png")
 plt.savefig(pr_path, dpi=300, bbox_inches="tight")
 plt.show()
 
-print("已保存：", pr_path)
+print("succeed：", pr_path)
 
 import numpy as np
 
@@ -113,7 +113,7 @@ bar_path = os.path.join(output_dir, "metrics_bar_chart.png")
 plt.savefig(bar_path, dpi=300, bbox_inches="tight")
 plt.show()
 
-print("已保存：", bar_path)
+print("succeed：", bar_path)
 
 from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay
 
@@ -137,7 +137,7 @@ cm_path = os.path.join(output_dir, "confusion_matrix_comparison.png")
 plt.savefig(cm_path, dpi=300, bbox_inches="tight")
 plt.show()
 
-print("已保存：", cm_path)
+print("succeed：", cm_path)
 
 print("Logistic Regression confusion matrix:")
 print(lr_cm)
@@ -147,7 +147,7 @@ print(xgb_cm)
 
 import os
 
-print("生成的文件：")
+print("files：")
 for f in os.listdir(output_dir):
     print("-", f)
 
