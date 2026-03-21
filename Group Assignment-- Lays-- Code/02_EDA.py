@@ -10,89 +10,88 @@ Original file is located at
 import os
 print(os.listdir("/content"))
 
-import pandas as pd  # 导入 pandas 库
+import pandas as pd  # Import pandas library for data processing
 
 df = pd.read_csv("/content/creditcard_clean.csv")
 
-# 查看数据的基本信息
+# Check basic information of the dataset
 print(df.info())
 
-# 统计每一列的基本描述
+# Statistical description of each column
 print(df.describe())
 
-# 检查是否有缺失值
+# Check for missing values in each column
 print(df.isnull().sum())
 
-import seaborn as sns  # 导入 seaborn 库
-import matplotlib.pyplot as plt  # 导入 matplotlib 库用于显示图形
+import seaborn as sns  # Import seaborn for visualization
+import matplotlib.pyplot as plt  # Import matplotlib for displaying plots
 
 !pip install seaborn
 
-# 查看数据的所有列名
+# View all column names of the dataset
 print(df.columns)
 
-# 查看 'Class' 列的分布
-sns.countplot(x='Class', data=df)  # 'Class' 是目标变量
+# Check the distribution of target variable 'Class'
+sns.countplot(x='Class', data=df)  # 'Class' is the target variable (0=Non-Fraud, 1=Fraud)
 plt.title("Fraud Distribution")
 plt.show()
 
-# 数值特征的分布
+# Distribution of numerical features
 import matplotlib.pyplot as plt
 
-# 数值特征的分布
-df.select_dtypes(include=['float64', 'int64']).hist(bins=20, figsize=(15, 15))  # 增加图像大小
-plt.tight_layout()  # 自动调整子图之间的间距
+# Distribution of numerical features
+df.select_dtypes(include=['float64', 'int64']).hist(bins=20, figsize=(15, 15))  # Increase figure size
+plt.tight_layout()  # Automatically adjust spacing between subplots
 plt.show()
 
 import seaborn as sns
 import matplotlib.pyplot as plt
 
-# 计算相关性矩阵
+# Calculate correlation matrix
 corr = df.corr()
 
-# 绘制热力图
-plt.figure(figsize=(18, 16))  # 增大图形的大小
+# Plot correlation heatmap
+plt.figure(figsize=(18, 16))  # Increase figure size
 sns.heatmap(corr, annot=True, cmap='coolwarm', fmt='.2f', linewidths=0.5, vmax=1, vmin=-1)
 plt.title("Correlation Heatmap of All Features")
 plt.tight_layout()
 plt.show()
 
-# 筛选高相关特征：设置阈值（如0.8）
+# Filter highly correlated features: set threshold (e.g., 0.8)
 threshold = 0.8
 high_corr = corr[(corr > threshold) & (corr != 1)]
 
-# 输出高相关性特征对
+# Output pairs of highly correlated features
 high_corr_pairs = high_corr.stack().reset_index()
 high_corr_pairs.columns = ['Feature 1', 'Feature 2', 'Correlation']
-high_corr_pairs = high_corr_pairs[high_corr_pairs['Feature 1'] != high_corr_pairs['Feature 2']]  # 排除特征与自身的相关性
+high_corr_pairs = high_corr_pairs[high_corr_pairs['Feature 1'] != high_corr_pairs['Feature 2']]  # Exclude self-correlation
 
-# 查看相关性高的特征对
+# View pairs of highly correlated features
 print(high_corr_pairs)
 
 import matplotlib.pyplot as plt
 
-# 计算正负样本数量
+# Calculate the number of positive and negative samples
 class_counts = df['Class'].value_counts()
 
-# 绘制饼图
+# Plot pie chart
 plt.figure(figsize=(6, 6))
 plt.pie(class_counts, labels=['Non-Fraud (0)', 'Fraud (1)'], autopct='%1.1f%%', startangle=90, colors=['lightblue', 'lightcoral'])
 plt.title("Distribution of Fraud and Non-Fraud Transactions")
-plt.axis('equal')  # 确保饼图是圆形的
+plt.axis('equal')  # Ensure the pie chart is circular
 plt.show()
 
-# 查看数值特征与目标变量的关系
-sns.boxplot(x='Class', y='Amount', data=df)  # 'Class' 是目标变量，'Amount' 是交易金额特征
+# Check the relationship between numerical features and target variable
+sns.boxplot(x='Class', y='Amount', data=df)  # 'Class' is target variable, 'Amount' is transaction amount feature
 plt.title("Fraud vs Amount")
 plt.show()
 
-# 散点图：展示金额与交易时间的关系
-
-sns.scatterplot(x='Time', y='Amount', hue='Class', data=df)  # 'Time' 和 'Amount' 是正确的列名，'Class' 是目标变量
+# Scatter plot: Relationship between transaction time and amount
+sns.scatterplot(x='Time', y='Amount', hue='Class', data=df)  # 'Time' and 'Amount' are column names, 'Class' is target variable
 plt.title("Time vs Amount (Fraud vs Non-fraud)")
 plt.show()
 
-# 使用箱型图检测异常值
-sns.boxplot(x='Amount', data=df)  # 使用 'Amount' 作为交易金额特征的列名
+# Use box plot to detect outliers in Amount feature
+sns.boxplot(x='Amount', data=df)  # 'Amount' is the column name for transaction amount
 plt.title("Amount Distribution (Outliers)")
 plt.show()
