@@ -75,10 +75,21 @@ import matplotlib.pyplot as plt
 class_counts = df['Class'].value_counts()
 
 # Plot pie chart
-plt.figure(figsize=(6, 6))
-plt.pie(class_counts, labels=['Non-Fraud (0)', 'Fraud (1)'], autopct='%1.1f%%', startangle=90, colors=['lightblue', 'lightcoral'])
+import pandas as pd
+import matplotlib.pyplot as plt
+
+df = pd.read_csv('creditcard_clean.csv')
+
+df.columns = df.columns.str.strip()
+
+…    labels=['Non-Fraud (0)', 'Fraud (1)'],
+    autopct='%1.2f%%',
+    startangle=90,
+    colors=['lightblue', 'lightcoral']
+)
+
 plt.title("Distribution of Fraud and Non-Fraud Transactions")
-plt.axis('equal')  # Ensure the pie chart is circular
+plt.axis('equal')  
 plt.show()
 
 # Check the relationship between numerical features and target variable
